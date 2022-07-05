@@ -6,16 +6,6 @@ UINT gnCbvSrvDescriptorIncrementSize{ 32 };
 std::wstring SERVER_ADDR{};
 std::default_random_engine dre{ std::random_device{}() };
 
-namespace KEY
-{
-	inline constexpr int FORWARD{ 0x01 };
-	inline constexpr int BACKWARD{ 0x02 };
-	inline constexpr int LEFT{ 0x04 };
-	inline constexpr int RIGHT{ 0x08 };
-	inline constexpr int UP{ 0x10 };
-	inline constexpr int DOWN{ 0x20 };
-	inline constexpr int LCLICK{ 0x40 };
-}
 
 ID3D12Resource* CreateBufferResource(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* pd3dCommandList, void* pData, UINT nBytes, D3D12_HEAP_TYPE d3dHeapType, D3D12_RESOURCE_STATES d3dResourceStates, ID3D12Resource** ppd3dUploadBuffer)
 {

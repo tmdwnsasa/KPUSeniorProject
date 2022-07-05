@@ -34,7 +34,7 @@ CGameFramework::CGameFramework() :
 	m_pScene(nullptr),
 	m_pPlayer(nullptr),
 	m_pCamera(nullptr),
-	network_manager(std::make_unique<CNetwork>(this)),
+	//network_manager(std::make_unique<CNetwork>(this)),
 	send_timing(0),
 	fps(0.0f)
 {
@@ -333,7 +333,7 @@ void CGameFramework::OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPA
 		case VK_SPACE:
 			break;
 		case VK_ESCAPE:
-			network_manager->EndThread();
+			//network_manager->EndThread();
 			PostQuitMessage(0);
 			break;
 		case VK_RETURN:
@@ -418,61 +418,15 @@ void CGameFramework::OnDestroy()
 }
 
 #define _WITH_TERRAIN_PLAYER
-// 플레이어 추가 서버 내용
-//void CGameFramework::AddPlayer(SC::P::ADD_OBJ* packet)
-//{
-//	if (!packet)
-//	{
-//		for (int i = -1; i >= -4; --i)
-//		{
-//			CTerrainPlayer* pPlayer{ new CTerrainPlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), m_pScene->m_pTerrain) };
-//
-//			players.emplace(i, pPlayer);
-//		}
-//
-//		m_pScene->m_pPlayer = m_pPlayer = (*players.begin()).second;
-//		m_pCamera = m_pPlayer->GetCamera();
-//	}
-//	else
-//	{
-//		float x{ packet->x };
-//		float y{ packet->y };
-//		float z{ packet->z };
-//
-//		XMFLOAT3 temp{ x, y, z };
-//
-//		auto player{ players.extract(players.begin()) };
-//		player.key() = packet->id;
-//		players.insert(std::move(player));
-//
-//		players[packet->id]->SetPosition(temp);
-//		players[packet->id]->SetLookVector(XMFLOAT3{ packet->look_x, packet->look_y, packet->look_z });
-//		players[packet->id]->SetRightVector(XMFLOAT3{ packet->right_x, packet->right_y, packet->right_z });
-//		players[packet->id]->SetUpVector(XMFLOAT3{ packet->up_x, packet->up_y, packet->up_z });
-//
-//		//for (auto& iter : players)
-//		//{
-//		//	if (iter.first >= 0)
-//		//	{
-//		//		std::cout << iter.first << " : " << iter.second->GetPosition().x << ", " << iter.second->GetPosition().z << std::endl;
-//		//	}
-//		//}
-//	}
-//}
-//
-//void CGameFramework::RemovePlayer(int id)
-//{
-//	auto player{ players.extract(id) };
-//	int new_id{ rand_pl(dre) };
-//
-//	while (players.find(new_id) != players.end())
-//	{
-//		new_id = rand_pl(dre);
-//	}
-//
-//	player.key() = new_id;
-//	players.insert(std::move(player));
-//}
+
+void CGameFramework::AddPlayer()
+{
+	CTerrainPlayer* pPlayer{ new CTerrainPlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), m_pScene->m_pTerrain) };
+	m_pPlayer = pPlayer;
+	m_pScene->m_pPlayer = m_pPlayer;
+	m_pCamera = m_pPlayer->GetCamera();
+}
+
 
 void CGameFramework::BuildObjects()
 {
@@ -496,13 +450,7 @@ void CGameFramework::BuildObjects()
 	if (m_pScene)
 		m_pScene->ReleaseUploadBuffers();
 
-	if (!players.empty())
-	{
-		for (auto& iter : players)
-		{
-			iter.second->ReleaseUploadBuffers();
-		}
-	}
+	m_pPlayer->ReleaseUploadBuffers();
 
 	m_GameTimer.Reset();
 }
@@ -556,26 +504,26 @@ void CGameFramework::ProcessInput()
 			SetCursorPos(m_ptOldCursorPos.x, m_ptOldCursorPos.y);
 		}
 
-		// 1초에 이동 패킷을 30번 보낸다
-		if (send_timing >= fps / 30.0f)
-		{
-			if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
-			{
-				if (cxDelta || cyDelta)
-				{
-						m_pPlayer->Rotate(cyDelta, cxDelta, 0.0f);
-						network_manager->SendRotateObjectPacket(cyDelta, cxDelta);
-				}
-				if (dwDirection)
-				{
-					//m_pPlayer->Move(dwDirection, 2.25f, true);
+		//// 1초에 이동 패킷을 30번 보낸다
+		//if (send_timing >= fps / 30.0f)
+		//{
+		//	if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+		//	{
+		//		if (cxDelta || cyDelta)
+		//		{
+		//				m_pPlayer->Rotate(cyDelta, cxDelta, 0.0f);
+		//				network_manager->SendRotateObjectPacket(cyDelta, cxDelta);
+		//		}
+		//		if (dwDirection)
+		//		{
+		//			//m_pPlayer->Move(dwDirection, 2.25f, true);
 
-					network_manager->SendMoveObjectPacket(dwDirection);
-				}
-			}
+		//			network_manager->SendMoveObjectPacket(dwDirection);
+		//		}
+		//	}
 
-			send_timing = 0;
-		}
+		//	send_timing = 0;
+		//}
 	}
 
 	m_pPlayer->Update(m_GameTimer.GetTimeElapsed());
@@ -652,22 +600,17 @@ void CGameFramework::FrameAdvance()
 #ifdef _WITH_PLAYER_TOP
 	m_pd3dCommandList->ClearDepthStencilView(d3dDsvCPUDescriptorHandle, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, 1.0f, 0, 0, NULL);
 #endif
-	if (!players.empty())
-	{
-		for (auto& player : players)
-		{
-			if (player.first >= 0 && player.second != m_pPlayer)
-			{
-				player.second->Render(m_pd3dCommandList, player.second->GetCamera());
-			}
 
-			for (int i = 0; i < player.second->GetBulletNum(); ++i)
-			{
-				player.second->MoveBullet();
-				player.second->GetBullet()[i]->UpdateTransform(nullptr);
-				player.second->GetBullet()[i]->Render(m_pd3dCommandList, player.second->GetCamera());
-			}
-		}
+	if (m_pPlayer)
+	{
+		m_pPlayer->Render(m_pd3dCommandList, m_pPlayer->GetCamera());
+	}
+
+	for (int i = 0; i < m_pPlayer->GetBulletNum(); ++i)
+	{
+		m_pPlayer->MoveBullet();
+		m_pPlayer->GetBullet()[i]->UpdateTransform(nullptr);
+		m_pPlayer->GetBullet()[i]->Render(m_pd3dCommandList, m_pPlayer->GetCamera());
 	}
 
 	//if (m_pPlayer)

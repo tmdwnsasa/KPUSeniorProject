@@ -89,7 +89,6 @@ void CScene::BuildObjects(ID3D12Device* pd3dDevice, ID3D12GraphicsCommandList* p
 	GhoulShader->CreateShader(pd3dDevice, m_pd3dGraphicsRootSignature);
 	GhoulShader->CreateShaderVariables(pd3dDevice, pd3dCommandList);
 
-	CreateShaderResourceViews(pd3dDevice, GhoulTexture, 15, false);
 	CreateCbvSrvDescriptorHeaps(pd3dDevice, 0, 46);
 
 

@@ -35,6 +35,17 @@
 #ifdef _DEBUG
 #include <dxgidebug.h>
 #endif
+// 키입력 전용 상수입니다.
+namespace KEY
+{
+	inline constexpr int FORWARD{ 0x01 };
+	inline constexpr int BACKWARD{ 0x02 };
+	inline constexpr int LEFT{ 0x04 };
+	inline constexpr int RIGHT{ 0x08 };
+	inline constexpr int UP{ 0x10 };
+	inline constexpr int DOWN{ 0x20 };
+	inline constexpr int LCLICK{ 0x40 };
+}
 
 // 네트워크 통신용 헤더 파일입니다.
 #include <thread>

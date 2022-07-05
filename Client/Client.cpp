@@ -96,7 +96,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	{
 		return FALSE;
 	}
-
+	gGameFramework.OnCreate(hInstance, hWnd);
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
 

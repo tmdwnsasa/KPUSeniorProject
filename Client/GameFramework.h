@@ -42,11 +42,13 @@ public:
 	void OnProcessingKeyboardMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
 	LRESULT CALLBACK OnProcessingWindowMessage(HWND hWnd, UINT nMessageID, WPARAM wParam, LPARAM lParam);
 
+	void AddPlayer();
+
 	CPlayer* GetPlayer() { return m_pPlayer; }
-	CPlayer* GetPlayer(int id) { return players[id]; }
 	CScene* GetScene() { return m_pScene; }
 	CGameTimer* GetTimer() { return &m_GameTimer; }
-	std::unordered_map<int, CPlayer*>* GetPlayers() { return &players; }
+	//CPlayer* GetPlayer(int id) { return players[id]; }
+	//std::unordered_map<int, CPlayer*>* GetPlayers() { return &players; }
 
 private:
 	HINSTANCE					m_hInstance;
@@ -91,13 +93,12 @@ private:
 	CPlayer* m_pPlayer;
 	CCamera* m_pCamera;
 
-	std::unordered_map<int, CPlayer*> players;
 
 	POINT						m_ptOldCursorPos;
 
 	_TCHAR						m_pszFrameRate[70];
 
-	std::unique_ptr<CNetwork> network_manager;
+	//std::unique_ptr<CNetwork> network_manager;
 	int send_timing;
 	float fps;
 };
