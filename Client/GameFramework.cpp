@@ -418,61 +418,61 @@ void CGameFramework::OnDestroy()
 }
 
 #define _WITH_TERRAIN_PLAYER
-
-void CGameFramework::AddPlayer(SC::P::ADD_OBJ* packet)
-{
-	if (!packet)
-	{
-		for (int i = -1; i >= -4; --i)
-		{
-			CTerrainPlayer* pPlayer{ new CTerrainPlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), m_pScene->m_pTerrain) };
-
-			players.emplace(i, pPlayer);
-		}
-
-		m_pScene->m_pPlayer = m_pPlayer = (*players.begin()).second;
-		m_pCamera = m_pPlayer->GetCamera();
-	}
-	else
-	{
-		float x{ packet->x };
-		float y{ packet->y };
-		float z{ packet->z };
-
-		XMFLOAT3 temp{ x, y, z };
-
-		auto player{ players.extract(players.begin()) };
-		player.key() = packet->id;
-		players.insert(std::move(player));
-
-		players[packet->id]->SetPosition(temp);
-		players[packet->id]->SetLookVector(XMFLOAT3{ packet->look_x, packet->look_y, packet->look_z });
-		players[packet->id]->SetRightVector(XMFLOAT3{ packet->right_x, packet->right_y, packet->right_z });
-		players[packet->id]->SetUpVector(XMFLOAT3{ packet->up_x, packet->up_y, packet->up_z });
-
-		//for (auto& iter : players)
-		//{
-		//	if (iter.first >= 0)
-		//	{
-		//		std::cout << iter.first << " : " << iter.second->GetPosition().x << ", " << iter.second->GetPosition().z << std::endl;
-		//	}
-		//}
-	}
-}
-
-void CGameFramework::RemovePlayer(int id)
-{
-	auto player{ players.extract(id) };
-	int new_id{ rand_pl(dre) };
-
-	while (players.find(new_id) != players.end())
-	{
-		new_id = rand_pl(dre);
-	}
-
-	player.key() = new_id;
-	players.insert(std::move(player));
-}
+// 플레이어 추가 서버 내용
+//void CGameFramework::AddPlayer(SC::P::ADD_OBJ* packet)
+//{
+//	if (!packet)
+//	{
+//		for (int i = -1; i >= -4; --i)
+//		{
+//			CTerrainPlayer* pPlayer{ new CTerrainPlayer(m_pd3dDevice, m_pd3dCommandList, m_pScene->GetGraphicsRootSignature(), m_pScene->m_pTerrain) };
+//
+//			players.emplace(i, pPlayer);
+//		}
+//
+//		m_pScene->m_pPlayer = m_pPlayer = (*players.begin()).second;
+//		m_pCamera = m_pPlayer->GetCamera();
+//	}
+//	else
+//	{
+//		float x{ packet->x };
+//		float y{ packet->y };
+//		float z{ packet->z };
+//
+//		XMFLOAT3 temp{ x, y, z };
+//
+//		auto player{ players.extract(players.begin()) };
+//		player.key() = packet->id;
+//		players.insert(std::move(player));
+//
+//		players[packet->id]->SetPosition(temp);
+//		players[packet->id]->SetLookVector(XMFLOAT3{ packet->look_x, packet->look_y, packet->look_z });
+//		players[packet->id]->SetRightVector(XMFLOAT3{ packet->right_x, packet->right_y, packet->right_z });
+//		players[packet->id]->SetUpVector(XMFLOAT3{ packet->up_x, packet->up_y, packet->up_z });
+//
+//		//for (auto& iter : players)
+//		//{
+//		//	if (iter.first >= 0)
+//		//	{
+//		//		std::cout << iter.first << " : " << iter.second->GetPosition().x << ", " << iter.second->GetPosition().z << std::endl;
+//		//	}
+//		//}
+//	}
+//}
+//
+//void CGameFramework::RemovePlayer(int id)
+//{
+//	auto player{ players.extract(id) };
+//	int new_id{ rand_pl(dre) };
+//
+//	while (players.find(new_id) != players.end())
+//	{
+//		new_id = rand_pl(dre);
+//	}
+//
+//	player.key() = new_id;
+//	players.insert(std::move(player));
+//}
 
 void CGameFramework::BuildObjects()
 {

@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
-#include "../Server/protocol.h"
 #include "Player.h"
 #include "Shader.h"
+
 
 CPlayer::CPlayer() :
 	m_xmf3Scale(XMFLOAT3{ 1.0f, 1.0f, 1.0f }),

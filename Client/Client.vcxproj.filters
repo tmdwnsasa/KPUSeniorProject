@@ -21,9 +21,6 @@
     <Filter Include="Object\Player">
       <UniqueIdentifier>{c1206ed2-0f29-463d-9115-223b142cc681}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameClient\Network">
-      <UniqueIdentifier>{e90db6ac-1d50-4b77-ab9d-cb1be3b40605}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameClient\Camera">
       <UniqueIdentifier>{bf09bd1c-5542-460f-aa0c-6b9bf0f6bf24}</UniqueIdentifier>
     </Filter>
@@ -65,9 +62,6 @@
     <ClInclude Include="Player.h">
       <Filter>Object\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Network.h">
-      <Filter>GameClient\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>GameClient\Camera</Filter>
     </ClInclude>
@@ -80,9 +74,6 @@
     <ClInclude Include="Scene.h">
       <Filter>GameClient\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="OVERLAPPEDEX.h">
-      <Filter>GameClient\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Object\Mesh</Filter>
     </ClInclude>
@@ -91,9 +82,6 @@
     </ClInclude>
     <ClInclude Include="WICTextureLoader12.h">
       <Filter>GameClient\Texture</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Server\protocol.h">
-      <Filter>GameClient\Network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -112,9 +100,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>Object\Player</Filter>
     </ClCompile>
-    <ClCompile Include="Network.cpp">
-      <Filter>GameClient\Network</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>GameClient\Camera</Filter>
     </ClCompile>
@@ -126,9 +111,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>GameClient\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="OVERLAPPEDEX.cpp">
-      <Filter>GameClient\Network</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
       <Filter>Object\Mesh</Filter>

@@ -3,7 +3,6 @@
 #include "Timer.h"
 #include "Player.h"
 #include "Scene.h"
-#include "Network.h"
 
 class CGameFramework
 {
@@ -28,12 +27,6 @@ public:
 	void CreateDepthStencilView();
 
 	void ChangeSwapChainState();
-
-	void ConnectToServer() { network_manager->ConnectToServer(); }
-	void Login() { network_manager->SendLoginPacket(); }
-	void RecvData() { network_manager->RecvData(); }
-	void AddPlayer(SC::P::ADD_OBJ* packet = nullptr);
-	void RemovePlayer(int id);
 
 	void BuildObjects();
 	void ReleaseObjects();
