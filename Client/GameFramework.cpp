@@ -524,6 +524,17 @@ void CGameFramework::ProcessInput()
 
 		//	send_timing = 0;
 		//}
+		if ((dwDirection != 0) || (cxDelta != 0.0f) || (cyDelta != 0.0f))
+		{
+			if (cxDelta || cyDelta)
+			{
+				m_pPlayer->Rotate(cyDelta, cxDelta, 0.0f);
+			}
+			if (dwDirection)
+			{
+				m_pPlayer->Move(dwDirection, 2.25f, true);
+			}
+		}
 	}
 
 	m_pPlayer->Update(m_GameTimer.GetTimeElapsed());

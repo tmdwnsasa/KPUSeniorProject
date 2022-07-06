@@ -35,6 +35,7 @@
 #ifdef _DEBUG
 #include <dxgidebug.h>
 #endif
+
 // 키입력 전용 상수입니다.
 namespace KEY
 {
