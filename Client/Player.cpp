@@ -62,11 +62,11 @@ void CPlayer::Move(DWORD dwDirection, float fDistance, bool bUpdateVelocity)
 		XMFLOAT3 xmf3Shift = XMFLOAT3(0, 0, 0);
 		if (dwDirection & KEY::FORWARD)
 		{
-			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Look, +fDistance);
+			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Look, -fDistance);
 		}
 		if (dwDirection & KEY::BACKWARD)
 		{
-			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Look, -fDistance);
+			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Look, +fDistance);
 		}
 #ifdef _WITH_LEFT_HAND_COORDINATES
 		if (dwDirection & KEY::RIGHT)
@@ -80,11 +80,11 @@ void CPlayer::Move(DWORD dwDirection, float fDistance, bool bUpdateVelocity)
 #else
 		if (dwDirection & KEY::RIGHT)
 		{
-			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Right, -fDistance);
+			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Right, +fDistance);
 		}
 		if (dwDirection & KEY::LEFT)
 		{
-			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Right, +fDistance);
+			xmf3Shift = Vector3::Add(xmf3Shift, m_xmf3Right, -fDistance);
 		}
 #endif
 		if (dwDirection & KEY::UP)
@@ -289,6 +289,7 @@ void CPlayer::MoveBullet()
 		{
 			m_bullet[i]->MoveForward(-0.1f);
 			m_bullet[i]->UpdateTransform(NULL);
+			//cout << m_bullet[i]->GetLook();
 		}
 	}
 }
